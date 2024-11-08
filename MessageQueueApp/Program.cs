@@ -1,4 +1,6 @@
 
+using MessageQueueApp.Consumers;
+
 namespace MessageQueueApp
 {
     public class Program
@@ -8,6 +10,7 @@ namespace MessageQueueApp
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddHostedService<MessageConsumer>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
