@@ -1,4 +1,5 @@
 
+using MassTransit;
 using MessageQueueApp.Consumers;
 
 namespace MessageQueueApp
@@ -10,7 +11,21 @@ namespace MessageQueueApp
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddHostedService<MessageConsumer>();
+
+            builder.Services.AddMassTransit(c =>
+            {
+                c.AddConsumer<TicketConsumer>();
+                c.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host("localhost", 5672, "/", h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+
+                    cfg.ConfigureEndpoints(context);
+                });
+            });
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
