@@ -1,5 +1,4 @@
-﻿
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 
@@ -10,15 +9,16 @@ namespace MessageQueueApp.Consumers
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var factory = new ConnectionFactory() { HostName = "localhost", Port = 5672, UserName = "guest", Password = "guest" };
-            var connection = await factory.CreateConnectionAsync();
-            var channel = await connection.CreateChannelAsync();
+            var connection = await factory.CreateConnectionAsync(cancellationToken: stoppingToken);
+            var channel = await connection.CreateChannelAsync(cancellationToken: stoppingToken);
 
             await channel.QueueDeclareAsync(
                 queue: "messages",
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
-                arguments: null);
+                arguments: null,
+                cancellationToken: stoppingToken);
 
             var consumer = new AsyncEventingBasicConsumer(channel);
 
@@ -33,7 +33,7 @@ namespace MessageQueueApp.Consumers
                 await channel.BasicAckAsync(eventArgs.DeliveryTag, false);
             };
 
-            await channel.BasicConsumeAsync("messages", false, consumer);
+            await channel.BasicConsumeAsync("messages", false, consumer, cancellationToken: stoppingToken);
         }
     }
 }

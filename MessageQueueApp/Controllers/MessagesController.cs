@@ -13,7 +13,7 @@ namespace MessageQueueApp.Controllers
         public async Task<ActionResult<PostMessageResponse>> Post([FromBody] PostMessageRequest request)
         {
             if (string.IsNullOrEmpty(request.Content))
-                return BadRequest();
+                return UnprocessableEntity(request);
 
             var factory = new ConnectionFactory() { HostName = "localhost", Port = 5672, UserName = "guest", Password = "guest" };
             var connection = await factory.CreateConnectionAsync();
@@ -32,24 +32,6 @@ namespace MessageQueueApp.Controllers
             var response = new PostMessageResponse(DateTime.Now);
 
             return Ok(response);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult> Get(int id)
-        {
-            return Ok(id);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> List()
-        {
-            return Ok();
-        }
-
-        [HttpDelete]
-        public async Task<ActionResult> Delete(int id)
-        {
-            return Ok(id);
         }
     }
 }
