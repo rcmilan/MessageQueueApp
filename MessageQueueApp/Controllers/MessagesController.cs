@@ -20,13 +20,6 @@ namespace MessageQueueApp.Controllers
 
             using (var channel = await connection.CreateChannelAsync())
             {
-                await channel.QueueDeclareAsync(
-                    queue: "messages",
-                    durable: false,
-                    exclusive: false,
-                    autoDelete: false,
-                    arguments: null);
-
                 var json = System.Text.Json.JsonSerializer.Serialize(request.Content);
                 var body = Encoding.UTF8.GetBytes(json);
                 

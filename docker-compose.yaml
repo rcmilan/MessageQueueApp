@@ -9,16 +9,16 @@ services:
     networks:
       - messageApp
   
-  mssqlserver:
-    image: 'mcr.microsoft.com/mssql/server:2022-latest'
-    container_name: mssqlserver
-    environment:
-        - ACCEPT_EULA=Y
-        - SA_PASSWORD=msSQL@123
-    ports:
-        - '1433:1433'
-    networks:
-      - messageApp
+  # mssqlserver:
+  #   image: 'mcr.microsoft.com/mssql/server:2022-latest'
+  #   container_name: mssqlserver
+  #   environment:
+  #       - ACCEPT_EULA=Y
+  #       - SA_PASSWORD=msSQL@123
+  #   ports:
+  #       - '1433:1433'
+  #   networks:
+  #     - messageApp
 
 networks:
   messageApp:
