@@ -1,5 +1,7 @@
-﻿using MessageQueueApp.IO;
+﻿using MessageQueueApp.Database;
+using MessageQueueApp.IO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RabbitMQ.Client;
 using System.Text;
 
@@ -32,5 +34,15 @@ public class MessagesController : Controller
         var response = new PostMessageResponse(DateTime.Now);
 
         return Ok(response);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<GetMessageResponse>>> Get([FromServices] MessageQueueAppDbContext dbContext)
+    {
+        var messages = await dbContext.UserMessages.ToListAsync();
+
+        var result = messages.Select(m => new GetMessageResponse(m.Id, m.CreatedAt, m.Content)).ToList();
+
+        return Ok(result);
     }
 }

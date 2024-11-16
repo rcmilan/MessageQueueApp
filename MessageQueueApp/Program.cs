@@ -12,9 +12,7 @@ public class Program
 
         builder.Services.AddDbContext<MessageQueueAppDbContext>(options =>
         {
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            options.UseSqlServer(connectionString);
-
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             options.EnableSensitiveDataLogging();
         });
 
