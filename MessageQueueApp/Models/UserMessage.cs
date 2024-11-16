@@ -2,13 +2,13 @@
 
 public class UserMessage
 {
-    public UserMessage(DateTime? createdAt, string content)
+    public UserMessage(DateTime createdAt, string content)
     {
-        CreatedAt = createdAt ?? DateTime.Now;
+        CreatedAt = createdAt;
         Content = content;
     }
 
-    public int Id { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    public string Content { get; private set; }
+    public int Id { get; }
+    public DateTime CreatedAt { get; }
+    public string Content { get; }
 }

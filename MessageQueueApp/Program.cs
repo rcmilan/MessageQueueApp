@@ -14,6 +14,8 @@ public class Program
         {
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             options.UseSqlServer(connectionString);
+
+            options.EnableSensitiveDataLogging();
         });
 
         // Add services to the container.
